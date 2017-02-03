@@ -1,0 +1,17 @@
+diff --git a/cmake/modules/Findkeyutils.cmake b/cmake/modules/Findkeyutils.cmake
+index 15a07d6..30e0ae0 100644
+--- a/cmake/modules/Findkeyutils.cmake
++++ b/cmake/modules/Findkeyutils.cmake
+@@ -13,11 +13,7 @@ INCLUDE(CheckCXXSymbolExists)
+ 
+ # include dir
+ 
+-find_path(KEYUTILS_INCLUDE_DIR keyutils.h NO_DEFAULT_PATH PATHS
+-  /usr/include
+-  /opt/local/include
+-  /usr/local/include
+-)
++find_path(KEYUTILS_INCLUDE_DIR keyutils.h)
+ 
+ 
+ # finally the library itself

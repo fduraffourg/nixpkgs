@@ -1,20 +1,32 @@
-{ callPackage, fetchgit, fetchpatch, ... } @ args:
+{ stdenv, fetchurl, autoconf, automake, cmake, pkgconfig, pythonPackages, libudev, libaio, libuuid, openldap, fuse, libxfs, leveldb, libatomic_ops, snappy, keyutils, gperftools, jemalloc, curl, nss, nspr, expat, fcgi, boost162, lttng-tools, lttng-ust,  yasm, ... } @ args:
 
-callPackage ./generic.nix (args // rec {
-  version = "9.2.0";
+stdenv.mkDerivation {
+  version = "11.2.0";
+  name = "ceph-11.2.0";
 
-  src = fetchgit {
-    url = "https://github.com/ceph/ceph.git";
-    rev = "refs/tags/v${version}";
-    sha256 = "0a2v3bgkrbkzardcw7ymlhhyjlwi08qmcm7g34y2sjsxk9bd78an";
+  src = fetchurl {
+    url = "https://download.ceph.com/tarballs/ceph_11.2.0.orig.tar.gz";
+    sha256 = "1wyagw3kqiy8hq5h1rjk4k07lagh7n7fzrb210avgbal2mh1cz5c";
   };
 
   patches = [
-    ./fix-pythonpath.patch
-    # For building with xfsprogs 4.5.0:
-    (fetchpatch {
-      url = "https://github.com/ceph/ceph/commit/602425abd5cef741fc1b5d4d1dd70c68e153fc8d.patch";
-      sha256 = "1iyf0ml2n50ki800vjich8lvzmcdviwqwkbs6cdj0vqv2nc5ii1g";
-    })
+    ./cmake-findkeyutils.patch
+    ./cmake-findxfs.patch
   ];
-})
+
+  nativeBuildInputs = [ autoconf automake cmake pkgconfig ];
+  buildInputs = [ boost162 pythonPackages.sphinx libudev libaio libuuid openldap fuse libxfs leveldb libatomic_ops snappy keyutils gperftools jemalloc curl nss nspr expat fcgi lttng-tools lttng-ust pythonPackages.cython yasm ];
+
+  configurePhase = ''
+    mkdir build
+    cd build
+    cmake -DBOOST_J=$(nproc) ..
+  '';
+
+  buildPhase = ''
+    make
+  '';
+
+  installPhase = ''
+  '';
+}

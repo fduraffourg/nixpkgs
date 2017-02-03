@@ -1,0 +1,19 @@
+diff --git a/cmake/modules/Findxfs.cmake b/cmake/modules/Findxfs.cmake
+index ecbf91c..e633cd2 100644
+--- a/cmake/modules/Findxfs.cmake
++++ b/cmake/modules/Findxfs.cmake
+@@ -13,13 +13,7 @@ INCLUDE(CheckCXXSymbolExists)
+ 
+ # include dir
+ 
+-find_path(XFS_INCLUDE_DIR xfs.h NO_DEFAULT_PATH PATHS
+-  /usr/include
+-  /usr/include/xfs
+-  /opt/local/include
+-  /usr/local/include
+-)
+-
++find_path(XFS_INCLUDE_DIR xfs.h)
+ 
+ # finally the library itself
+ find_library(LIBXFS NAMES handle)

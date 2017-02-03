@@ -1039,7 +1039,7 @@ in
   cdrkit = callPackage ../tools/cd-dvd/cdrkit { };
 
   libceph = self.ceph.lib;
-  ceph = callPackage ../tools/filesystems/ceph { boost = boost159; };
+  ceph = callPackage ../tools/filesystems/ceph { };
   ceph-dev = self.ceph;
   #ceph-dev = lowPrio (callPackage ../tools/filesystems/ceph/dev.nix { });
 
@@ -6941,6 +6941,7 @@ in
   boost155 = callPackage ../development/libraries/boost/1.55.nix { };
   boost159 = callPackage ../development/libraries/boost/1.59.nix { };
   boost160 = callPackage ../development/libraries/boost/1.60.nix { };
+  boost162 = callPackage ../development/libraries/boost/1.62.nix { };
   boost = self.boost160;
 
   boost_process = callPackage ../development/libraries/boost-process { };
