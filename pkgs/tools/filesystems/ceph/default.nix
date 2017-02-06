@@ -24,7 +24,7 @@ stdenv.mkDerivation {
   '';
 
   buildPhase = ''
-    make
+    make -j$(nproc)
   '';
 
   installPhase = ''
