@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, autoconf, automake, cmake, pkgconfig, pythonPackages, libudev, libaio, libuuid, openldap, fuse, libxfs, leveldb, libatomic_ops, snappy, keyutils, gperftools, jemalloc, curl, nss, nspr, expat, fcgi, boost162, lttng-tools, lttng-ust,  yasm, liburcu, linuxHeaders, ... } @ args:
+{ stdenv, fetchurl, autoconf, automake, cmake, pkgconfig, pythonPackages, libudev, libaio, libuuid, openldap, fuse, libxfs, leveldb, libatomic_ops, snappy, keyutils, gperftools, jemalloc, curl, nss, nspr, expat, fcgi, boost162, lttng-tools, lttng-ust,  yasm, liburcu, linuxHeaders, which, ... } @ args:
 
 stdenv.mkDerivation {
   version = "11.2.0";
@@ -15,7 +15,7 @@ stdenv.mkDerivation {
     ./kv_include_asm_generic.patch
   ];
 
-  nativeBuildInputs = [ autoconf automake cmake pkgconfig ];
+  nativeBuildInputs = [ autoconf automake cmake pkgconfig which ];
   buildInputs = [ boost162 pythonPackages.sphinx libudev libaio libuuid openldap fuse libxfs leveldb libatomic_ops snappy keyutils gperftools jemalloc curl nss nspr expat fcgi lttng-tools lttng-ust pythonPackages.cython yasm liburcu linuxHeaders ];
 
   configurePhase = ''
