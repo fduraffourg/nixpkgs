@@ -21,13 +21,12 @@ stdenv.mkDerivation {
   configurePhase = ''
     mkdir build
     cd build
-    cmake -DBOOST_J=$(nproc) ..
+    cmake -DBOOST_J=$(nproc) -DWITH_XFS=OFF -DWITH_LTTNG=OFF -DWITH_OPENLDAP=OFF -DWITH_TESTS=OFF \
+      -DCMAKE_INSTALL_PREFIX=$out \
+      -DCMAKE_C_FLAGS="-Wno-unused-variable" -DCMAKE_CXX_FLAGS="-Wno-unused-variable" ..
   '';
 
   buildPhase = ''
-    make -j$(nproc)
-  '';
-
-  installPhase = ''
+    make
   '';
 }
