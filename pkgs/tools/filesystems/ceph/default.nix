@@ -25,8 +25,4 @@ stdenv.mkDerivation {
       -DCMAKE_INSTALL_PREFIX=$out \
       -DCMAKE_C_FLAGS="-Wno-unused-variable" -DCMAKE_CXX_FLAGS="-Wno-unused-variable" ..
   '';
-
-  buildPhase = ''
-    make
-  '';
 }
