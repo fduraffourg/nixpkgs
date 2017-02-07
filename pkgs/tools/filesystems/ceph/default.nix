@@ -10,8 +10,7 @@ stdenv.mkDerivation {
   };
 
   patches = [
-    ./cmake-findkeyutils.patch
-    ./cmake-findxfs.patch
+    ./cmake-no-hardcoded-searchpaths.patch
     ./kv_include_asm_generic.patch
   ];
 
@@ -23,6 +22,7 @@ stdenv.mkDerivation {
     cd build
     cmake -DBOOST_J=$(nproc) -DWITH_XFS=OFF -DWITH_LTTNG=OFF -DWITH_OPENLDAP=OFF -DWITH_TESTS=OFF \
       -DCMAKE_INSTALL_PREFIX=$out \
+      -DCMAKE_SKIP_RPATH=TRUE \
       -DCMAKE_C_FLAGS="-Wno-unused-variable" -DCMAKE_CXX_FLAGS="-Wno-unused-variable" ..
   '';
   enableParallelBuilding = true;

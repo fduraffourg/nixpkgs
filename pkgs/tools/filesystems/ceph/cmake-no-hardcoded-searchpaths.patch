@@ -1,0 +1,263 @@
+diff --git a/cmake/modules/FindJeMalloc.cmake b/cmake/modules/FindJeMalloc.cmake
+index 6926ae9..18a070c 100644
+--- a/cmake/modules/FindJeMalloc.cmake
++++ b/cmake/modules/FindJeMalloc.cmake
+@@ -27,19 +27,9 @@ IF(NOT JEMALLOC_ROOT_DIR AND NOT $ENV{JEMALLOC_ROOT_DIR} STREQUAL "")
+   SET(JEMALLOC_ROOT_DIR $ENV{JEMALLOC_ROOT_DIR})
+ ENDIF()
+ 
+-SET(_jemalloc_SEARCH_DIRS
+-  ${JEMALLOC_ROOT_DIR}
+-  /usr/local
+-  /sw # Fink
+-  /opt/local # DarwinPorts
+-  /opt/csw # Blastwave
+-)
+-
+ FIND_PATH(JEMALLOC_INCLUDE_DIR
+   NAMES
+     jemalloc.h
+-  HINTS
+-    ${_jemalloc_SEARCH_DIRS}
+   PATH_SUFFIXES
+     include/jemalloc
+ )
+@@ -47,8 +37,6 @@ FIND_PATH(JEMALLOC_INCLUDE_DIR
+ FIND_LIBRARY(JEMALLOC_LIBRARY
+   NAMES
+   jemalloc
+-  HINTS
+-    ${_jemalloc_SEARCH_DIRS}
+   PATH_SUFFIXES
+     lib64 lib
+   )
+diff --git a/cmake/modules/FindNSPR.cmake b/cmake/modules/FindNSPR.cmake
+index 48f9295..8ffbcfa 100644
+--- a/cmake/modules/FindNSPR.cmake
++++ b/cmake/modules/FindNSPR.cmake
+@@ -26,48 +26,15 @@ else (NSPR_LIBRARIES AND NSPR_INCLUDE_DIRS)
+   find_path(NSPR_INCLUDE_DIR
+     NAMES
+       nspr.h
+-    PATHS
+-      ${_NSPR_INCLUDEDIR}
+-      /usr/include
+-      /usr/local/include
+-      /opt/local/include
+-      /sw/include
+     PATH_SUFFIXES
+       nspr4
+   )
+ 
+-  find_library(PLDS4_LIBRARY
+-    NAMES
+-      plds4
+-    PATHS
+-      ${_NSPR_LIBDIR}
+-      /usr/lib
+-      /usr/local/lib
+-      /opt/local/lib
+-      /sw/lib
+-  )
++  find_library(PLDS4_LIBRARY plds4)
+ 
+-  find_library(PLC4_LIBRARY
+-    NAMES
+-      plc4
+-    PATHS
+-      ${_NSPR_LIBDIR}
+-      /usr/lib
+-      /usr/local/lib
+-      /opt/local/lib
+-      /sw/lib
+-  )
++  find_library(PLC4_LIBRARY plc4)
+ 
+-  find_library(NSPR4_LIBRARY
+-    NAMES
+-      nspr4
+-    PATHS
+-      ${_NSPR_LIBDIR}
+-      /usr/lib
+-      /usr/local/lib
+-      /opt/local/lib
+-      /sw/lib
+-  )
++  find_library(NSPR4_LIBRARY nspr4)
+ 
+   set(NSPR_INCLUDE_DIRS
+     ${NSPR_INCLUDE_DIR}
+diff --git a/cmake/modules/FindNSS.cmake b/cmake/modules/FindNSS.cmake
+index a22e0f7..20135f2 100644
+--- a/cmake/modules/FindNSS.cmake
++++ b/cmake/modules/FindNSS.cmake
+@@ -24,64 +24,20 @@ else (NSS_LIBRARIES AND NSS_INCLUDE_DIRS)
+   endif (PKG_CONFIG_FOUND)
+ 
+   find_path(NSS_INCLUDE_DIR
+-    NAMES
+-      pk11pub.h
+-    PATHS
+-      ${_NSS_INCLUDEDIR}
+-      /usr/include
+-      /usr/local/include
+-      /opt/local/include
+-      /sw/include
+-      /usr/local/include/nss
+-    PATH_SUFFIXES
+-      nss3
+-      nss
++      NAMES
++        pk11pub.h
++      PATH_SUFFIXES
++        nss3
++        nss
+   )
+ 
+-  find_library(SSL3_LIBRARY
+-    NAMES
+-      ssl3
+-    PATHS
+-      ${_NSS_LIBDIR}
+-      /usr/lib
+-      /usr/local/lib
+-      /opt/local/lib
+-      /sw/lib
+-  )
++  find_library(SSL3_LIBRARY ssl3)
+ 
+-  find_library(SMIME3_LIBRARY
+-    NAMES
+-      smime3
+-    PATHS
+-      ${_NSS_LIBDIR}
+-      /usr/lib
+-      /usr/local/lib
+-      /opt/local/lib
+-      /sw/lib
+-  )
++  find_library(SMIME3_LIBRARY smime3)
+ 
+-  find_library(NSS3_LIBRARY
+-    NAMES
+-      nss3
+-    PATHS
+-      ${_NSS_LIBDIR}
+-      /usr/lib
+-      /usr/local/lib
+-      /opt/local/lib
+-      /sw/lib
+-      /usr/lib/x86_64-linux-gnu
+-  )
++  find_library(NSS3_LIBRARY nss3)
+ 
+-  find_library(NSSUTIL3_LIBRARY
+-    NAMES
+-      nssutil3
+-    PATHS
+-      ${_NSS_LIBDIR}
+-      /usr/lib
+-      /usr/local/lib
+-      /opt/local/lib
+-      /sw/lib
+-  )
++  find_library(NSSUTIL3_LIBRARY nssutil3)
+ 
+   set(NSS_INCLUDE_DIRS
+     ${NSS_INCLUDE_DIR}
+diff --git a/cmake/modules/FindOpenLdap.cmake b/cmake/modules/FindOpenLdap.cmake
+index 35b711d..2e19fb9 100644
+--- a/cmake/modules/FindOpenLdap.cmake
++++ b/cmake/modules/FindOpenLdap.cmake
+@@ -4,10 +4,7 @@
+ # OPENLDAP_INCLUDE_DIR - Path to the openldap include directory
+ # OPENLDAP_LIBRARIES - Paths to the ldap and lber libraries
+ 
+-find_path(OPENLDAP_INCLUDE_DIR ldap.h PATHS
+-  /usr/include
+-  /opt/local/include
+-  /usr/local/include)
++find_path(OPENLDAP_INCLUDE_DIR ldap.h)
+ 
+ find_library(LDAP_LIBRARY ldap)
+ find_library(LBER_LIBRARY lber)
+diff --git a/cmake/modules/Findfcgi.cmake b/cmake/modules/Findfcgi.cmake
+index f355b92..7704f96 100644
+--- a/cmake/modules/Findfcgi.cmake
++++ b/cmake/modules/Findfcgi.cmake
+@@ -4,15 +4,8 @@
+ # and following variables are set:
+ # FCGI_INCLUDE_DIR
+ # FCGI_LIBRARY
+-find_path(FCGI_INCLUDE_DIR
+-  fcgio.h
+-  PATHS
+-  /usr/include
+-  /usr/local/include
+-  /usr/include/fastcgi)
+-find_library(FCGI_LIBRARY NAMES fcgi libfcgi PATHS
+-  /usr/local/lib
+-  /usr/lib)
++find_path(FCGI_INCLUDE_DIR fcgio.h)
++find_library(FCGI_LIBRARY NAMES fcgi libfcgi)
+ 
+ # handle the QUIETLY and REQUIRED arguments and set UUID_FOUND to TRUE if
+ # all listed variables are TRUE
+diff --git a/cmake/modules/Findfuse.cmake b/cmake/modules/Findfuse.cmake
+index 58c50cb..700c397 100644
+--- a/cmake/modules/Findfuse.cmake
++++ b/cmake/modules/Findfuse.cmake
+@@ -8,7 +8,6 @@
+ find_path(
+     FUSE_INCLUDE_DIRS
+     NAMES fuse_common.h fuse_lowlevel.h fuse.h
+-    PATHS /usr/local/include/osxfuse /usr/local/include
+     PATH_SUFFIXES fuse)
+ 
+ set(fuse_names fuse)
+@@ -17,8 +16,7 @@ if(APPLE)
+ endif()
+ 
+ find_library(FUSE_LIBRARIES
+-  NAMES ${fuse_names}
+-  PATHS /usr/local/lib64 /usr/local/lib)
++  NAMES ${fuse_names})
+ 
+ include(FindPackageHandleStandardArgs)
+ find_package_handle_standard_args(FUSE DEFAULT_MSG
+diff --git a/cmake/modules/Findkeyutils.cmake b/cmake/modules/Findkeyutils.cmake
+index 15a07d6..30e0ae0 100644
+--- a/cmake/modules/Findkeyutils.cmake
++++ b/cmake/modules/Findkeyutils.cmake
+@@ -13,11 +13,7 @@ INCLUDE(CheckCXXSymbolExists)
+ 
+ # include dir
+ 
+-find_path(KEYUTILS_INCLUDE_DIR keyutils.h NO_DEFAULT_PATH PATHS
+-  /usr/include
+-  /opt/local/include
+-  /usr/local/include
+-)
++find_path(KEYUTILS_INCLUDE_DIR keyutils.h)
+ 
+ 
+ # finally the library itself
+diff --git a/cmake/modules/Findxfs.cmake b/cmake/modules/Findxfs.cmake
+index ecbf91c..e633cd2 100644
+--- a/cmake/modules/Findxfs.cmake
++++ b/cmake/modules/Findxfs.cmake
+@@ -13,13 +13,7 @@ INCLUDE(CheckCXXSymbolExists)
+ 
+ # include dir
+ 
+-find_path(XFS_INCLUDE_DIR xfs.h NO_DEFAULT_PATH PATHS
+-  /usr/include
+-  /usr/include/xfs
+-  /opt/local/include
+-  /usr/local/include
+-)
+-
++find_path(XFS_INCLUDE_DIR xfs.h)
+ 
+ # finally the library itself
+ find_library(LIBXFS NAMES handle)
